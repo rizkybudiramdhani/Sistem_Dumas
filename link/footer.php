@@ -2,7 +2,7 @@
 <div class="container-fluid bg-dark text-light footer py-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center py-5">
         <a href="index.html">
-            <h1 class="display-4 mb-3 text-white text-uppercase"><i class="fa fa-car"></i>TRISULA</h1>
+            <link href="imgg/trisula.png" rel="icon">
         </a>
         <div class="d-flex justify-content-center mb-4">
             <a class="btn btn-lg-square btn-outline-primary border-2 m-1" href=""><i class="fab fa-x-twitter"></i></a>

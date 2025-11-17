@@ -70,11 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <head>
     <meta charset="utf-8">
-    <title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+    <title>Trisula</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
-    <link rel="icon" type="type=" image/png" sizes="16x16" href="vendors/images/favicon-16x16.png">
+    <link href="imgg/trisula.png" rel="icon">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 

@@ -35,7 +35,7 @@ if (isset($_POST['update_status'])) {
     $status_baru = mysqli_real_escape_string($db, $_POST['status_baru']);
     $tanggapan = mysqli_real_escape_string($db, $_POST['tanggapan']);
     $petugas = isset($_SESSION['nama']) ? $_SESSION['nama'] : 'Admin';
-    
+
     $query_update = "UPDATE tabel_laporan 
                      SET status_laporan = ?, 
                          tanggapan_admin = ?, 
@@ -43,10 +43,10 @@ if (isset($_POST['update_status'])) {
                      WHERE id_laporan = ?";
     $stmt_update = mysqli_prepare($db, $query_update);
     mysqli_stmt_bind_param($stmt_update, "ssi", $status_baru, $tanggapan, $id_laporan);
-    
+
     if (mysqli_stmt_execute($stmt_update)) {
         $success_message = 'Status berhasil diupdate!';
-        
+
         // Refresh data
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
@@ -306,7 +306,9 @@ if (!empty($laporan['nama_pelapor'])) {
     }
 
     @media print {
-        .action-buttons, .no-print {
+
+        .action-buttons,
+        .no-print {
             display: none !important;
         }
     }
@@ -387,7 +389,7 @@ if (!empty($laporan['nama_pelapor'])) {
 <div class="row">
     <!-- Left Column -->
     <div class="col-md-8">
-        
+
         <!-- Isi Laporan -->
         <div class="detail-card">
             <div class="info-section">
@@ -400,24 +402,24 @@ if (!empty($laporan['nama_pelapor'])) {
 
         <!-- Bukti Foto -->
         <?php if (!empty($images)): ?>
-        <div class="detail-card">
-            <div class="info-section">
-                <h5>📷 Bukti Foto/Dokumen</h5>
-                <div class="image-gallery">
-                    <?php foreach ($images as $image): 
-                        $image = trim($image);
-                        if (!empty($image) && file_exists($image)):
-                    ?>
-                        <div class="gallery-item" onclick="openLightbox('<?php echo htmlspecialchars($image); ?>')">
-                            <img src="<?php echo htmlspecialchars($image); ?>" alt="Bukti">
-                        </div>
-                    <?php 
-                        endif;
-                    endforeach; 
-                    ?>
+            <div class="detail-card">
+                <div class="info-section">
+                    <h5>📷 Bukti Foto/Dokumen</h5>
+                    <div class="image-gallery">
+                        <?php foreach ($images as $image):
+                            $image = trim($image);
+                            if (!empty($image) && file_exists($image)):
+                        ?>
+                                <div class="gallery-item" onclick="openLightbox('<?php echo htmlspecialchars($image); ?>')">
+                                    <img src="<?php echo htmlspecialchars($image); ?>" alt="Bukti">
+                                </div>
+                        <?php
+                            endif;
+                        endforeach;
+                        ?>
+                    </div>
                 </div>
             </div>
-        </div>
         <?php endif; ?>
 
         <!-- Tanggapan Admin -->
@@ -429,7 +431,7 @@ if (!empty($laporan['nama_pelapor'])) {
                         <div class="d-flex justify-content-between mb-2">
                             <strong>Tanggapan:</strong>
                             <small class="text-muted">
-                                <?php 
+                                <?php
                                 if ($laporan['tanggal_tanggapan'] != '0000-00-00 00:00:00') {
                                     echo date('d M Y, H:i', strtotime($laporan['tanggal_tanggapan']));
                                 }
@@ -451,12 +453,12 @@ if (!empty($laporan['nama_pelapor'])) {
 
     <!-- Right Column -->
     <div class="col-md-4">
-        
+
         <!-- Informasi Pelapor -->
         <div class="detail-card">
             <div class="info-section">
                 <h5>👤 Informasi Pelapor</h5>
-                
+
                 <div class="info-item mb-3">
                     <div class="info-label">Nama Lengkap</div>
                     <div class="info-value"><?php echo htmlspecialchars($nama_pelapor); ?></div>
@@ -468,10 +470,10 @@ if (!empty($laporan['nama_pelapor'])) {
                 </div>
 
                 <?php if (!empty($laporan['email_pelapor'])): ?>
-                <div class="info-item mb-3">
-                    <div class="info-label">Email</div>
-                    <div class="info-value"><?php echo htmlspecialchars($laporan['email_pelapor']); ?></div>
-                </div>
+                    <div class="info-item mb-3">
+                        <div class="info-label">Email</div>
+                        <div class="info-value"><?php echo htmlspecialchars($laporan['email_pelapor']); ?></div>
+                    </div>
                 <?php endif; ?>
 
                 <div class="info-item">
@@ -497,17 +499,17 @@ if (!empty($laporan['nama_pelapor'])) {
                     </div>
 
                     <?php if ($laporan['tanggal_tanggapan'] != '0000-00-00 00:00:00'): ?>
-                    <div class="timeline-item">
-                        <strong>Ditanggapi Petugas</strong>
-                        <div class="small text-muted">
-                            <?php echo date('d M Y, H:i', strtotime($laporan['tanggal_tanggapan'])); ?>
+                        <div class="timeline-item">
+                            <strong>Ditanggapi Petugas</strong>
+                            <div class="small text-muted">
+                                <?php echo date('d M Y, H:i', strtotime($laporan['tanggal_tanggapan'])); ?>
+                            </div>
+                            <div class="mt-2">
+                                Status: <span class="badge badge-<?php echo $status_class; ?>">
+                                    <?php echo ucfirst($laporan['status_laporan']); ?>
+                                </span>
+                            </div>
                         </div>
-                        <div class="mt-2">
-                            Status: <span class="badge badge-<?php echo $status_class; ?>">
-                                <?php echo ucfirst($laporan['status_laporan']); ?>
-                            </span>
-                        </div>
-                    </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -521,35 +523,32 @@ if (!empty($laporan['nama_pelapor'])) {
                     <div class="form-group">
                         <label class="font-weight-600">Status Baru</label>
                         <select class="form-control" name="status_baru" required>
-                            <option value="baru" <?php echo $laporan['status_laporan'] == 'baru' ? 'selected' : ''; ?>>
-                                Baru
-                            </option>
-                            <option value="diproses ditsamapta" <?php echo $laporan['status_laporan'] == 'diproses ditsamapta' ? 'selected' : ''; ?>>
-                                Diproses Ditsamapta
-                            </option>
-                            <option value="selesai ditsamapta" <?php echo $laporan['status_laporan'] == 'selesai ditsamapta' ? 'selected' : ''; ?>>
-                                Selesai Ditsamapta
-                            </option>
-                            <option value="diproses ditbinmas" <?php echo $laporan['status_laporan'] == 'diproses ditbinmas' ? 'selected' : ''; ?>>
-                                Diproses Ditbinmas
-                            </option>
-                            <option value="selesai ditbinmas" <?php echo $laporan['status_laporan'] == 'selesai ditbinmas' ? 'selected' : ''; ?>>
-                                Selesai Ditbinmas
-                            </option>
-                            <option value="diproses ditresnarkoba" <?php echo $laporan['status_laporan'] == 'diproses ditresnarkoba' ? 'selected' : ''; ?>>
-                                Diproses Ditresnarkoba
-                            </option>
-                            <option value="selesai" <?php echo $laporan['status_laporan'] == 'selesai' ? 'selected' : ''; ?>>
-                                Selesai
-                            </option>
+                            <?php
+                            $session_nama = isset($_SESSION['role']) ? strtolower($_SESSION['role']) : '';
+                            if (strpos($session_nama, 'ditresnarkoba') !== false) {
+                                echo '<option value="baru" ' . ($laporan['status_laporan'] == 'baru' ? 'selected' : '') . '>Baru</option>';
+                            }
+                            if (strpos($session_nama, 'ditsamapta') !== false) {
+                                echo '<option value="diproses ditsamapta" ' . ($laporan['status_laporan'] == 'diproses ditsamapta' ? 'selected' : '') . '>Diproses Ditsamapta</option>';
+                                echo '<option value="selesai ditsamapta" ' . ($laporan['status_laporan'] == 'selesai ditsamapta' ? 'selected' : '') . '>Selesai Ditsamapta</option>';
+                            }
+                            if (strpos($session_nama, 'ditbinmas') !== false) {
+                                echo '<option value="diproses ditbinmas" ' . ($laporan['status_laporan'] == 'diproses ditbinmas' ? 'selected' : '') . '>Diproses Ditbinmas</option>';
+                                echo '<option value="selesai ditbinmas" ' . ($laporan['status_laporan'] == 'selesai ditbinmas' ? 'selected' : '') . '>Selesai Ditbinmas</option>';
+                            }
+                            if (strpos($session_nama, 'ditresnarkoba') !== false) {
+                                echo '<option value="diproses ditresnarkoba" ' . ($laporan['status_laporan'] == 'diproses ditresnarkoba' ? 'selected' : '') . '>Diproses Ditresnarkoba</option>';
+                                echo '<option value="selesai" ' . ($laporan['status_laporan'] == 'selesai' ? 'selected' : '') . '>Selesai</option>';
+                            }
+                            ?>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label class="font-weight-600">Tanggapan/Keterangan</label>
-                        <textarea class="form-control" name="tanggapan" rows="4" 
-                                  placeholder="Berikan tanggapan atau keterangan..." 
-                                  required><?php echo htmlspecialchars($laporan['tanggapan_admin']); ?></textarea>
+                        <textarea class="form-control" name="tanggapan" rows="4"
+                            placeholder="Berikan tanggapan atau keterangan..."
+                            required><?php echo htmlspecialchars($laporan['tanggapan_admin']); ?></textarea>
                     </div>
 
                     <button type="submit" name="update_status" class="btn btn-primary btn-block">

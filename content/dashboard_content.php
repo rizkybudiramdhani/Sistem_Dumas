@@ -7,7 +7,7 @@ $result = mysqli_query($db, $query_total_pengaduan);
 $total_pengaduan = mysqli_fetch_assoc($result)['total'];
 
 // Total users dari tabel_users
-$query_total_users = "SELECT COUNT(*) as total FROM tabel_users WHERE status = 'masyarakat'";
+$query_total_users = "SELECT COUNT(*) as total FROM tabel_users WHERE telepon = true";
 $result_users = mysqli_query($db, $query_total_users);
 $total_users = mysqli_fetch_assoc($result_users)['total'];
 
